@@ -16,14 +16,14 @@ function! IndentLevel(lnum)
     return indent(a:lnum) / &shiftwidth
 endfunction
 
-function IsOpenBlock(cstr)
+function! IsOpenBlock(cstr)
   let open_i = stridx(a:cstr, "(")
   let close_i = stridx(a:cstr, ")")
 
   return open_i > -1 && open_i > close_i
 endfunction
 
-function IsCloseBlock(cstr)
+function! IsCloseBlock(cstr)
   let open_i = stridx(a:cstr, "(")
   let close_i = stridx(a:cstr, ")")
 
