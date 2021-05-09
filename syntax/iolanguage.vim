@@ -40,4 +40,4 @@ highlight link ioOperator Operator
 highlight link ioString String
 highlight link ioComment Comment
 
-let b:current_syntax = "iolang"
+let b:current_syntax = "iolanguage"
