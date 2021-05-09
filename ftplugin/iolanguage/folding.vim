@@ -2,23 +2,23 @@ setlocal foldmethod=expr
 setlocal foldexpr=GetIolangFold(v:lnum)
 
 function! GetIolangFold(bufline)
-  if IsOpenBlock(a:bufline)
-    return '>' . FoldLevel(a:bufline)
-  elseif IsCloseBlock(a:bufline)
-    return '<' . (FoldLevel(a:bufline) + 1)
+  if s:IsOpenBlock(a:bufline)
+    return '>' . s:FoldLevel(a:bufline)
+  elseif s:IsCloseBlock(a:bufline)
+    return '<' . (s:FoldLevel(a:bufline) + 1)
   else
     return '='
   endif
 endfunction
 
 function! s:FoldLevel(bufline)
-  let lnum = LineNumber(a:bufline)
+  let lnum = s:LineNumber(a:bufline)
   let cstr = getline(a:bufline)
   let level = count(cstr, "(") - count(cstr, ")")
   if lnum == 0
     return level
   else
-    return level + FoldLevel(lnum - 1) 
+    return level + s:FoldLevel(lnum - 1) 
 endfunction
 
 function! s:IsOpenBlock(bufline)
