@@ -1,15 +1,10 @@
-function! s:NextSection(type, backwards, isVisual)
+function! s:NextDeclaration(backwards, isVisual)
   if a:isVisual
     normal! gv
   endif
 
-  " ][ go to the `:=`
-  if a:type == 1
-    let pattern ='\v^\w+\s+\w*\s*\:\='
-  " ]] go to the openned brace
-  elseif a:type == 2
-    let pattern = '\v\((.*(\)|"))@!'
-  endif
+  "  go to the `=` or `:=` or `::=`
+  let pattern ='\v^\w+\s+\w*\s*\:{0,2}\='
 
   if a:backwards
     let dir = '?'
@@ -20,20 +15,12 @@ function! s:NextSection(type, backwards, isVisual)
   execute 'silent normal! ' . dir . pattern . dir . "\r"
 endfunction
 
-noremap <script> <buffer> <silent> []
-      \ :call <SID>NextSection(1, 0, 0)<cr>
-noremap <script> <buffer> <silent> ][
-      \ :call <SID>NextSection(1, 1, 0)<cr>
 noremap <script> <buffer> <silent> ]]
-      \ :call <SID>NextSection(2, 0, 0)<cr>
+      \ :call <SID>NextDeclaration(0, 0)<cr>
 noremap <script> <buffer> <silent> [[
-      \ :call <SID>NextSection(2, 1, 0)<cr>
+      \ :call <SID>NextDeclaration(1, 0)<cr>
 
-vnoremap <script> <buffer> <silent> []
-      \ :call <SID>NextSection(1, 0, 1)<cr>
-vnoremap <script> <buffer> <silent> ][
-      \ :call <SID>NextSection(1, 1, 1)<cr>
 vnoremap <script> <buffer> <silent> ]]
-      \ :call <SID>NextSection(2, 0, 1)<cr>
+      \ :call <SID>NextDeclaration(0, 1)<cr>
 vnoremap <script> <buffer> <silent> [[
-      \ :call <SID>NextSection(2, 1, 1)<cr>
+      \ :call <SID>NextDeclaration(1, 1)<cr>
